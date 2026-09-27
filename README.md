@@ -1,6 +1,6 @@
 # Git Review Skill — AI code review for GitHub PRs and Git commits
 
-**git-review-skill** is an open-source Agent Skill for reviewing GitHub pull requests, Git commits, and commit ranges with Codex, Claude Code, Cursor, or Gemini CLI. It checks the exact revision, traces changed behavior across files, reads relevant code comments and earlier PR reviews, and reports actionable defects and material risks with precise locations. After a PR report, it asks in the agent's native question UI when available whether to post a GitHub review comment and, for an `APPROVE` verdict, whether to merge the PR. Each action needs the user's explicit choice.
+**git-review-skill** is an open-source Agent Skill for reviewing GitHub pull requests, Git commits, and commit ranges with Codex, Claude Code, Cursor, or Gemini CLI. It checks the exact revision, traces changed behavior across files, reads relevant code comments and earlier PR reviews, and reports actionable defects and material risks with precise locations. After a PR report, it uses the agent's native interactive question UI to ask whether to post a GitHub review comment and, for an `APPROVE` verdict, whether to merge the PR. Each action needs the user's explicit choice.
 
 **Start here:** [Install the skill](#install) · [See the report format](#example-report) · [Run the evaluation cases](#develop-and-evaluate)
 
@@ -169,7 +169,7 @@ Every finding must identify an introduced or newly exposed behavior, a reachable
 
 ### Will it comment on or merge the PR?
 
-The agent prepares the report and opens the host's native question box when available. In Codex, it uses `request_user_input_async` when exposed. The box asks whether to post one GitHub review comment and, only for a `✅ APPROVE` verdict, separately asks whether to merge. If the host has no question UI, these appear as text questions after the report. A yes to either choice authorizes only that action on the identified PR. Before acting, the agent verifies that the reviewed head is still current. Merging also requires passing repository checks and a mergeable PR. The chat verdict does not submit a GitHub approval review; that is a separate action.
+The agent prepares the report and opens the host's native question box: Codex's user-input tool, Claude Code's `AskUserQuestion`, Cursor Agent's **Ask questions**, or Gemini CLI's `ask_user`. The box asks whether to post one GitHub review comment and, only for a `✅ APPROVE` verdict, separately asks whether to merge. If the current session does not expose a working question tool, these appear as text questions after the report. A yes to either choice authorizes only that action on the identified PR. Before acting, the agent verifies that the reviewed head is still current. Merging also requires passing repository checks and a mergeable PR. The chat verdict does not submit a GitHub approval review; that is a separate action. See the official question-tool documentation for [Claude Code](https://code.claude.com/docs/en/agent-sdk/user-input), [Cursor Agent](https://prod.cursor.com/docs/agent/overview), and [Gemini CLI](https://geminicli.com/docs/tools/ask-user/).
 
 ## Project layout
 

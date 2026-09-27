@@ -6,7 +6,16 @@ These actions are available only for a specifically identified GitHub PR after i
 
 For every PR, offer to post the report as **one GitHub review comment**. For `✅ APPROVE` only, independently offer to merge the PR. Name the PR and full reviewed head SHA in both questions. If there are zero findings, describe the proposed comment as a brief review summary. A user may choose either action, both, or neither. Do not interpret assent to commenting as assent to merging, or assent to a GitHub approval review. If a user's initial request already explicitly included an action, perform it after reporting without a repeat question. A standalone commit or range review has no PR action unless a PR is identified.
 
-When a native interactive question tool is available, use it for these choices instead of printing questions in the report. In Codex, call `request_user_input_async` with one self-contained comment question and, for `APPROVE`, a second self-contained merge question in the same call. Each title should name the PR, full head SHA, verdict, and proposed action, in the user's language. Give concise options such as `No, leave in chat` and `Yes, post comment`; for merge use `No, do not merge` and `Yes, merge PR`. Offer **No** before **Yes** when the first choice is preselected, so silence or an accidental submit does not opt into a GitHub mutation. Present the full report in the same turn. The tool's immediate acknowledgment only means the box was displayed: wait for the user's actual answer, which may arrive as a later message, before posting or merging. If no native tool is exposed, use separate `**Next action:**` text questions at the end of the report. Never treat missing, dismissed, or ambiguous input as consent.
+Use the current host's native question tool for these choices. Do not substitute a final-text question in an interactive session with a working question tool:
+
+| Host | Native question tool |
+| --- | --- |
+| Codex | `request_user_input_async` when exposed, or the current native user-input tool. |
+| Claude Code | `AskUserQuestion`. |
+| Cursor Agent | Its **Ask questions** tool; use the tool exposed in this session. |
+| Gemini CLI | `ask_user` with `type: "yesno"`. |
+
+Ask one self-contained comment question and, for `APPROVE`, a separate merge question. Submit both in one tool call if the host permits multiple questions. Each question should name the PR, full head SHA, verdict, and proposed action, in the user's language. For choice UIs, offer concise options such as `No, leave in chat` and `Yes, post comment`; for merge use `No, do not merge` and `Yes, merge PR`. Offer **No** before **Yes** when the first choice is preselected, so silence or an accidental submit does not opt into a GitHub mutation. Show the full report in the same turn; for a blocking question tool, display the report before opening the box. A tool acknowledgment or displayed box is not the user's answer: wait for the actual selection, which may arrive as a later message, before posting or merging. If the current session does not expose a working native question tool, use separate `**Next action:**` text questions at the end of the report. Never treat missing, dismissed, or ambiguous input as consent.
 
 ## Common checks before an authorized action
 
