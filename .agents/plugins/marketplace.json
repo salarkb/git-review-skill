@@ -1,0 +1,20 @@
+{
+  "name": "git-review-skill",
+  "interface": {
+    "displayName": "Git Review Skill"
+  },
+  "plugins": [
+    {
+      "name": "git-review",
+      "source": {
+        "source": "local",
+        "path": "./plugins/git-review"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

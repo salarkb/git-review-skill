@@ -1,0 +1,14 @@
+{
+  "name": "git-review-skill",
+  "description": "Evidence-based Git and GitHub review skills",
+  "owner": {
+    "name": "salarkb"
+  },
+  "plugins": [
+    {
+      "name": "git-review",
+      "source": ".",
+      "description": "Review PRs and commits for actionable defects and material risks with low false positives."
+    }
+  ]
+}

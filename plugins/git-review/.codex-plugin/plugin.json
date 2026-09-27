@@ -1,0 +1,20 @@
+{
+  "name": "git-review",
+  "version": "0.1.0",
+  "description": "Evidence-based reviews of GitHub pull requests and Git commits with actionable, low-noise findings.",
+  "author": {
+    "name": "salarkb"
+  },
+  "license": "MIT",
+  "keywords": ["git", "github", "pull-request", "code-review", "agent-skills"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Git Review",
+    "shortDescription": "Review PRs and commits with fewer false positives.",
+    "longDescription": "Trace changed behavior, inspect code comments and prior PR reviews, and report only actionable defects and material risks.",
+    "developerName": "salarkb",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Use git-review to review this PR and report only actionable findings."
+  }
+}

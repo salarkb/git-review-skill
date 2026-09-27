@@ -1,0 +1,11 @@
+{
+  "name": "git-review",
+  "displayName": "Git Review Skill",
+  "version": "0.1.0",
+  "description": "Evidence-based reviews of GitHub pull requests and Git commits, with low-noise findings and pinned revisions.",
+  "author": {
+    "name": "salarkb"
+  },
+  "license": "MIT",
+  "keywords": ["git", "github", "pull-request", "code-review", "agent-skills"]
+}
