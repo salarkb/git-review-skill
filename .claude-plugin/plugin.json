@@ -1,7 +1,7 @@
 {
   "name": "git-review",
   "displayName": "Git Review Skill",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Evidence-based reviews of GitHub pull requests and Git commits, with low-noise findings and pinned revisions.",
   "author": {
     "name": "salarkb"
