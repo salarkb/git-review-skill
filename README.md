@@ -18,6 +18,7 @@ The skill is language agnostic and follows the open [Agent Skills specification]
 - **Balances risk categories.** Correctness, security, data integrity, compatibility, concurrency, performance, failure handling, and targeted test gaps receive attention where relevant.
 - **Disciplines findings.** A candidate must have a reachable trigger and consequence; the reviewer checks whether it predates the change and tries to falsify it before reporting.
 - **Keeps noise low.** Style nits, generic test requests, speculative edge cases, and performance claims without a realistic workload stay out of the findings.
+- **Suggests a fix for each finding.** The recommendation identifies the smallest change supported by the evidence and, where useful, a focused regression check. It does not edit the code during review.
 - **Treats reviewed content as data.** Instructions inside PR descriptions, commit messages, or code comments do not control the reviewer.
 - **Offers controlled follow-up.** A PR report ends with a choice to post one GitHub review comment. An `APPROVE` verdict also offers a separate merge choice; the agent rechecks the reviewed head and GitHub requirements before acting.
 
@@ -76,6 +77,20 @@ Copy the **entire** [`skills/git-review`](skills/git-review) folder, including `
 
 These locations are documented by [Claude Code](https://code.claude.com/docs/en/skills), [Cursor](https://prod.cursor.com/docs/skills), [Gemini CLI](https://geminicli.com/docs/cli/using-agent-skills/), and [Codex](https://learn.chatgpt.com/docs/build-skills). For a team, commit a project-level copy to the repository that will use it. Agent behavior and permissions still depend on the host application.
 
+## Update
+
+Use the route that matches how you installed the skill. Start a new agent session after updating so it loads the new instructions.
+
+| Installation | Update |
+| --- | --- |
+| Codex marketplace | Run `codex plugin marketplace upgrade git-review-skill`, then `codex plugin add git-review@git-review-skill` in a terminal. |
+| Claude Code marketplace | Run `claude plugin marketplace update git-review-skill`, then `claude plugin update git-review@git-review-skill` in a terminal. In a running session, `/reload-plugins` applies an updated plugin. |
+| Gemini CLI extension | Run `gemini extensions update git-review` in a terminal, then restart Gemini CLI. |
+| Cursor GitHub-imported team marketplace | In **Dashboard → Plugins & MCPs**, open the marketplace and select **Refresh**, or enable **Auto Refresh** for future pushes. Reload Cursor after the update appears. |
+| Direct skill copy | Pull the latest repository version, then replace the entire `git-review/` skill folder, including `SKILL.md`, `references/`, and `scripts/`, in the same personal or project skill directory used for installation. |
+
+Cursor's GitHub-imported team marketplace refresh is separate from a standalone plugin added directly from a GitHub URL. If your standalone install remains pinned to an older revision, use the direct skill copy route. See the official update guidance for [Codex](https://developers.openai.com/plugins/build/plugins), [Claude Code](https://code.claude.com/docs/en/discover-plugins), [Gemini CLI](https://geminicli.com/docs/extensions/reference/), and [Cursor](https://prod.cursor.com/docs/plugins).
+
 ## Use
 
 Open the repository in your agent and name the exact target. Examples:
@@ -116,6 +131,7 @@ None.
    Trigger: charge_once is called again with a key already present in store.
    Impact: gateway.charge runs a second time even though the old receipt is returned.
    Evidence: the new charge call precedes store.get(key); previously this path returned first.
+   Suggested fix: check store.get(key) before gateway.charge and return the stored receipt for a repeated key; add a repeated-key regression test.
 
 ## 🟡 MEDIUM (0)
 None.
