@@ -128,12 +128,11 @@ The third command uses PR-style merge-base comparison. PR mode reads the current
 None.
 
 ## 🟠 HIGH (1)
-1. Defect — Duplicate charge occurs before the idempotency check
-   payments.py:2 (head 7c21...)
-   Trigger: charge_once is called again with a key already present in store.
-   Impact: gateway.charge runs a second time even though the old receipt is returned.
-   Evidence: the new charge call precedes store.get(key); previously this path returned first.
-   Suggested fix: check store.get(key) before gateway.charge and return the stored receipt for a repeated key; add a repeated-key regression test.
+**Defect — Duplicate charge occurs before the idempotency check.** payments.py:2
+**Trigger:** charge_once is called again with a key already present in store.
+**Impact:** gateway.charge runs a second time even though the old receipt is returned.
+**Evidence:** the new charge call precedes store.get(key); previously this path returned first.
+**Suggested fix:** check store.get(key) before gateway.charge and return the stored receipt for a repeated key.
 
 ## 🟡 MEDIUM (0)
 None.
