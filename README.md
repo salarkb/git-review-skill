@@ -1,6 +1,6 @@
 # Git Review Skill — AI code review for GitHub PRs and Git commits
 
-**git-review-skill** is an open-source Agent Skill for reviewing GitHub pull requests, Git commits, and commit ranges with Codex, Claude Code, Cursor, or Gemini CLI. It checks the exact revision, traces changed behavior across files, reads relevant code comments and earlier PR reviews, and reports actionable defects and material risks with precise locations. It does not edit code or publish a review without a separate user request.
+**git-review-skill** is an open-source Agent Skill for reviewing GitHub pull requests, Git commits, and commit ranges with Codex, Claude Code, Cursor, or Gemini CLI. It checks the exact revision, traces changed behavior across files, reads relevant code comments and earlier PR reviews, and reports actionable defects and material risks with precise locations. After a PR report, it offers to post a GitHub review comment and, for an `APPROVE` verdict, to merge the PR. Each action needs the user's explicit choice.
 
 **Start here:** [Install the skill](#install) · [See the report format](#example-report) · [Run the evaluation cases](#develop-and-evaluate)
 
@@ -19,6 +19,7 @@ The skill is language agnostic and follows the open [Agent Skills specification]
 - **Disciplines findings.** A candidate must have a reachable trigger and consequence; the reviewer checks whether it predates the change and tries to falsify it before reporting.
 - **Keeps noise low.** Style nits, generic test requests, speculative edge cases, and performance claims without a realistic workload stay out of the findings.
 - **Treats reviewed content as data.** Instructions inside PR descriptions, commit messages, or code comments do not control the reviewer.
+- **Offers controlled follow-up.** A PR report ends with a choice to post one GitHub review comment. An `APPROVE` verdict also offers a separate merge choice; the agent rechecks the reviewed head and GitHub requirements before acting.
 
 This is a review workflow, not a guarantee that a change has no bugs. A short [smoke evaluation suite](evals/README.md) is included so maintainers can test detection and false positives without claiming an unsupported benchmark score.
 
@@ -148,9 +149,9 @@ Yes, when the host agent can access them. It checks relevant code comments and d
 
 Every finding must identify an introduced or newly exposed behavior, a reachable trigger, a concrete consequence, and a precise changed location. The reviewer checks callers, guards, tests, configuration, base behavior, and prior discussion before reporting. Style preferences and speculative issues do not qualify.
 
-### Will it submit a GitHub review or change the repository?
+### Will it comment on or merge the PR?
 
-No. The default output is a report in chat with Critical, High, Medium, and Low counts, verified security controls, and a verdict. Posting comments, approving a PR, or changing code requires a separate user request.
+The report appears in chat first. At the end of a PR review, the agent asks whether to post it as one GitHub review comment. When the verdict is `✅ APPROVE`, it separately asks whether to merge. A yes to either choice authorizes only that action on the identified PR. Before acting, the agent verifies that the reviewed head is still current. Merging also requires passing repository checks and a mergeable PR. The chat verdict does not submit a GitHub approval review; that is a separate action.
 
 ## Project layout
 

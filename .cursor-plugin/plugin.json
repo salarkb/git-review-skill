@@ -1,5 +1,5 @@
 {
   "name": "git-review",
   "description": "Evidence-based reviews of GitHub pull requests and Git commits with actionable, low-noise findings.",
-  "version": "0.1.0"
+  "version": "0.2.0"
 }
