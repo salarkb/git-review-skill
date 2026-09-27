@@ -44,14 +44,18 @@ class SkillPackageTests(unittest.TestCase):
     def test_codex_plugin_bundles_the_same_skill(self):
         bundled = ROOT / "plugins" / "git-review" / "skills" / "git-review"
         original = SKILL.parent
-        original_files = {
-            path.relative_to(original): path.read_bytes()
-            for path in original.rglob("*") if path.is_file()
-        }
-        bundled_files = {
-            path.relative_to(bundled): path.read_bytes()
-            for path in bundled.rglob("*") if path.is_file()
-        }
+
+        def package_files(directory):
+            return {
+                path.relative_to(directory): path.read_bytes()
+                for path in directory.rglob("*")
+                if path.is_file()
+                and "__pycache__" not in path.parts
+                and path.suffix not in {".pyc", ".pyo"}
+            }
+
+        original_files = package_files(original)
+        bundled_files = package_files(bundled)
         self.assertEqual(bundled_files, original_files)
 
         plugin = json.loads(
