@@ -81,6 +81,8 @@ These locations are documented by [Claude Code](https://code.claude.com/docs/en/
 
 Use the route that matches how you installed the skill. Start a new agent session after updating so it loads the new instructions.
 
+An already running review chat may keep the skill text it loaded before the update. Start a fresh chat for a reliable check of the new report format; repeating the PR URL in the old chat may still use its earlier instructions.
+
 | Installation | Update |
 | --- | --- |
 | Codex marketplace | Run `codex plugin marketplace upgrade git-review-skill`, then `codex plugin add git-review@git-review-skill` in a terminal. |
