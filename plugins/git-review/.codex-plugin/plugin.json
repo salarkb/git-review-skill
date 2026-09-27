@@ -1,6 +1,6 @@
 {
   "name": "git-review",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Evidence-based reviews of GitHub pull requests and Git commits with actionable, low-noise findings.",
   "author": {
     "name": "salarkb"
