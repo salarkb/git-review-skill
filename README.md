@@ -15,6 +15,7 @@ The skill is language agnostic and follows the open [Agent Skills specification]
 - **Pins the review target.** A PR, a single commit, an explicit range, and a merge commit have different comparison rules. The skill records base/head SHAs and does not silently review a dirty working tree.
 - **Looks beyond the patch.** It traces callers, contracts, state changes, configuration, migrations, and tests when needed.
 - **Completes the review pass.** It tracks each changed behavior, continues after the first confirmed defect, checks interactions across files, and discloses material gaps instead of presenting a partial review as complete.
+- **Reuses review evidence.** It collects a pinned diff once, prefers local Git for surrounding code, batches independent reads, and compares earlier reviewed heads with new commits while rechecking full PR coverage.
 - **Checks review briefs against Git.** When given a plan, spec, or progress ledger, it verifies claimed scope and outcomes against the pinned diff and follows an explicitly requested report structure.
 - **Reads the surrounding conversation.** It checks code comments and docstrings for documented intent, then verifies those claims in code. For PRs, it reconciles earlier reviews and discussion with the current head so fixed issues are not repeated.
 - **Balances risk categories.** Correctness, security, data integrity, compatibility, concurrency, performance, failure handling, and targeted test gaps receive attention where relevant.
