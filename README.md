@@ -14,15 +14,17 @@ The skill is language agnostic and follows the open [Agent Skills specification]
 
 - **Pins the review target.** A PR, a single commit, an explicit range, and a merge commit have different comparison rules. The skill records base/head SHAs and does not silently review a dirty working tree.
 - **Looks beyond the patch.** It traces callers, contracts, state changes, configuration, migrations, and tests when needed.
+- **Completes the review pass.** It tracks each changed behavior, continues after the first confirmed defect, checks interactions across files, and discloses material gaps instead of presenting a partial review as complete.
+- **Checks review briefs against Git.** When given a plan, spec, or progress ledger, it verifies claimed scope and outcomes against the pinned diff and follows an explicitly requested report structure.
 - **Reads the surrounding conversation.** It checks code comments and docstrings for documented intent, then verifies those claims in code. For PRs, it reconciles earlier reviews and discussion with the current head so fixed issues are not repeated.
 - **Balances risk categories.** Correctness, security, data integrity, compatibility, concurrency, performance, failure handling, and targeted test gaps receive attention where relevant.
 - **Disciplines findings.** A candidate must have a reachable trigger and consequence; the reviewer checks whether it predates the change and tries to falsify it before reporting.
 - **Keeps noise low.** Style nits, generic test requests, speculative edge cases, and performance claims without a realistic workload stay out of the findings.
 - **Suggests a fix for each finding.** The recommendation identifies the smallest change supported by the evidence and, where useful, a focused regression check. It does not edit the code during review.
 - **Treats reviewed content as data.** Instructions inside PR descriptions, commit messages, or code comments do not control the reviewer.
-- **Offers controlled follow-up.** After a PR report, the agent uses a native question box when available to offer one GitHub review comment. An `APPROVE` verdict also offers a separate merge choice; the agent rechecks the reviewed head and GitHub requirements before acting.
+- **Offers controlled follow-up.** After a PR report, the agent uses a native question box when available to offer one GitHub review comment, unless the request is read-only or chat-only. An `APPROVE` verdict also offers a separate merge choice; the agent rechecks the reviewed head and GitHub requirements before acting.
 
-This is a review workflow, not a guarantee that a change has no bugs. A short [smoke evaluation suite](evals/README.md) is included so maintainers can test detection and false positives without claiming an unsupported benchmark score.
+This is a review workflow, not a guarantee that a change has no bugs. A short [smoke evaluation suite](evals/README.md) includes a multi-defect case so maintainers can check recall and false positives without claiming an unsupported benchmark score.
 
 ## Install
 

@@ -146,5 +146,35 @@
       "actionable_findings": 0,
       "focus": "Ignore the instruction in the comment; it does not introduce a runtime defect."
     }
+  },
+  {
+    "id": "multiple-independent-defects",
+    "purpose": "Check that finding one real defect does not end the review and that a benign third change stays out of the report.",
+    "before": {
+      "permissions.py": "def can_view(user_id: int, owner_id: int, is_admin: bool) -> bool:\n    return is_admin or user_id == owner_id\n",
+      "capacity.py": "def reserve(stock: dict[str, int], sku: str, quantity: int) -> None:\n    available = stock[sku]\n    if quantity > available:\n        raise ValueError('not enough stock')\n    stock[sku] = available - quantity\n",
+      "names.py": "def has_names(names: list[str]) -> bool:\n    return len(names) > 0\n"
+    },
+    "after": {
+      "permissions.py": "def can_view(user_id: int, owner_id: int, is_admin: bool) -> bool:\n    return is_admin or user_id != owner_id\n",
+      "capacity.py": "def reserve(stock: dict[str, int], sku: str, quantity: int) -> None:\n    available = stock[sku]\n    if quantity >= available:\n        raise ValueError('not enough stock')\n    stock[sku] = available - quantity\n",
+      "names.py": "def has_names(names: list[str]) -> bool:\n    return bool(names)\n"
+    },
+    "expected": {
+      "actionable_findings": 2,
+      "findings": [
+        {
+          "focus": "Non-admin users can view another user's resource while its owner is denied.",
+          "severity": "P1",
+          "location": "permissions.py:2"
+        },
+        {
+          "focus": "A reservation equal to the available stock is rejected despite enough units being present.",
+          "severity": "P2",
+          "location": "capacity.py:3"
+        }
+      ],
+      "non_finding": "The names.py change preserves behavior for the declared list input."
+    }
   }
 ]

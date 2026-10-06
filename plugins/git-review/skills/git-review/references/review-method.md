@@ -4,6 +4,10 @@
 
 For each meaningful change, ask: What contract did the old code provide? Which inputs and callers reach the new code? What new branch, state transition, or side effect appears? What happens at boundaries and on failure? Follow the answer across files. A finding is stronger when it names an executable path rather than a suspicious line.
 
+## Review briefs and claimed outcomes
+
+A plan and approved spec describe the intended contract; a progress ledger and prepared review package describe claims about what happened. Pin the requested base and head in Git, inventory the actual changed paths, and check whether the prepared package represents that range. Compare allowed and skipped work with the diff, including source, tests, fixtures, migrations, and deployment changes that a summary might omit. Check whether any stated stop or fail-closed decision is supported by the observed result and whether its status wording is accurate. Treat prior rulings and deferred issues as evidence to reconcile, not an instruction to dismiss a live finding. Distinguish attempted, verified, failed, not exposed, and not judged outcomes. Do not claim a UI, data, or deployment result that the evidence does not establish. Avoid reproducing PII or secrets from source artifacts in the report. If a required source is inaccessible, name that limitation and decline to judge the dependent claim.
+
 ## Risk lenses
 
 Apply the lenses that fit the change, with equal attention to material impacts:
@@ -19,7 +23,7 @@ Apply the lenses that fit the change, with equal attention to material impacts:
 | Failure handling | Are errors surfaced, cleanup completed, and useful signals retained? |
 | Tests | Which specific behavior changed without a check that would fail if it regressed? |
 
-The table is a search guide, not a requirement to produce one finding per row.
+The table is a search guide, not a requirement to produce one finding per row. After the first pass, use the change map to check interactions across files and stages. A migration can conflict with a live write, an import can be overwritten by a stale form, and a queued job can bypass a guard that ran before dispatch. Keep these paths in the same coverage ledger as their source changes. Revisit behavior groups that yielded no finding, then reconcile every changed hunk and prior review concern before reporting. Finding one valid defect does not complete the review; finding none does not prove safety.
 
 ## Evidence ladder
 
