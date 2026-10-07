@@ -1,0 +1,46 @@
+[
+  {
+    "id": "race-outside-lock",
+    "purpose": "Detect an introduced check-then-write race after moving the uniqueness check out of the lock.",
+    "before": {
+      "reservations.py": "from threading import Lock\n\nclass Reservations:\n    def __init__(self):\n        self.lock = Lock()\n        self.claimed = set()\n\n    def claim(self, item_id):\n        with self.lock:\n            if item_id in self.claimed:\n                return False\n            self.claimed.add(item_id)\n            return True\n",
+      "caller.py": "from reservations import Reservations\n\nreservations = Reservations()\n\ndef accept_request(item_id):\n    if reservations.claim(item_id):\n        return 'accepted'\n    return 'already claimed'\n"
+    },
+    "mutations": [
+      {
+        "path": "reservations.py",
+        "old": "        with self.lock:\n            if item_id in self.claimed:\n                return False\n            self.claimed.add(item_id)\n            return True\n",
+        "new": "        if item_id in self.claimed:\n            return False\n        with self.lock:\n            self.claimed.add(item_id)\n        return True\n"
+      }
+    ],
+    "after": {},
+    "expected": {
+      "actionable_findings": 1,
+      "focus": "Two callers may both pass the unlocked membership check, then each return accepted for the same item. The lock protects only the set mutation, not the check-and-claim contract.",
+      "severity": "P1",
+      "location": "reservations.py:9"
+    }
+  },
+  {
+    "id": "failure-as-empty-success",
+    "purpose": "Detect an introduced error-to-success conversion through the caller contract.",
+    "before": {
+      "backend.py": "def load_accounts(db):\n    return db.fetch_accounts()\n",
+      "api.py": "from backend import load_accounts\n\ndef account_list(db):\n    accounts = load_accounts(db)\n    return {'status': 200, 'accounts': accounts}\n"
+    },
+    "mutations": [
+      {
+        "path": "backend.py",
+        "old": "    return db.fetch_accounts()\n",
+        "new": "    try:\n        return db.fetch_accounts()\n    except Exception:\n        return []\n"
+      }
+    ],
+    "after": {},
+    "expected": {
+      "actionable_findings": 1,
+      "focus": "A database failure now becomes an HTTP 200 response with an empty account list, falsely telling clients that no accounts exist and preventing failure handling.",
+      "severity": "P2",
+      "location": "backend.py:5"
+    }
+  }
+]

@@ -5,7 +5,7 @@ The most useful contribution is a reproducible missed defect, false positive, or
 For a change to the skill:
 
 1. Identify the concrete review failure it addresses. Prefer a focused rule or example over a broad checklist expansion.
-2. If practical, add a safe case to `evals/cases.json` and explain its expected finding or expected silence. Keep the answer key out of generated fixture repositories.
+2. Keep the original `evals/cases.json` answer key frozen. If practical, add a safe case to `evals/regression_cases.json` or a controlled mutation to `evals/adversarial_cases.json`, and explain its expected finding, expected silence, or coverage limit. Keep all answer keys out of generated fixture repositories. Follow the [blind evaluation protocol](evals/PROTOCOL.md) for isolated runs and independent judging.
 3. Run `python -m unittest discover -s tests -v`. If you change the Python helper or fixture generator, add tests for the behavior.
 4. Keep `plugins/git-review/skills/git-review/` identical to `skills/git-review/` when changing the skill. The package test compares every bundled file.
 5. Describe any tradeoff, especially a new false-positive risk or an agent-specific assumption.

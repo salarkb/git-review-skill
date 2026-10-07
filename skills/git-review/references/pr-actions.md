@@ -4,9 +4,9 @@ These actions are available only for a specifically identified GitHub PR after i
 
 ## Ask after preparing the report
 
-For every PR except an explicitly read-only or chat-only review, offer to post the report as **one GitHub review comment**. For `✅ APPROVE` only, independently offer to merge the PR. Name the PR and full reviewed head SHA in both questions. If there are zero findings, describe the proposed comment as a brief review summary. A user may choose either action, both, or neither. Do not interpret assent to commenting as assent to merging, or assent to a GitHub approval review. If a user's initial request already explicitly included an action, perform it after reporting without a repeat question. A standalone commit or range review has no PR action unless a PR is identified. A read-only request ends with the report and makes no GitHub mutation offer; a later direct user request can authorize a separate action.
+For every PR except an explicitly read-only or chat-only review, offer to post the report as **one GitHub review comment**. For `✅ APPROVE` only, independently offer to merge the PR. Name the PR and full reviewed head SHA in both questions. If there are zero findings, describe the proposed comment as a brief review summary. A user may choose either action, both, or neither. Comment, GitHub approval review, and merge are three independent actions; assent to one does not authorize another. An initial request counts as authorization without a repeat question only when it explicitly names the action, PR, and full reviewed head SHA. A standalone commit or range review has no PR action unless a PR is identified. A read-only request ends with the report and makes no GitHub mutation offer; a later direct user request can authorize a separate action.
 
-Use the current host's native question tool for these choices. Do not substitute a final-text question in an interactive session with a working question tool:
+Check which interaction tools this session actually exposes. Use a working native question tool for these choices; the host name alone does not guarantee that the tool is available. Do not substitute a final-text question when a working native question tool is available:
 
 | Host | Native question tool |
 | --- | --- |

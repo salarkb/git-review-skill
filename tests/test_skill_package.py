@@ -34,6 +34,10 @@ class SkillPackageTests(unittest.TestCase):
 
         for manifest in (claude_plugin, cursor_plugin, gemini_extension):
             self.assertEqual(manifest["name"], SKILL.parent.name)
+        self.assertEqual(
+            {manifest["version"] for manifest in (claude_plugin, cursor_plugin, gemini_extension)},
+            {read("plugins/git-review/.codex-plugin/plugin.json")["version"]},
+        )
         for marketplace in (claude_marketplace, cursor_marketplace):
             self.assertEqual(marketplace["name"], "git-review-skill")
             self.assertEqual(len(marketplace["plugins"]), 1)

@@ -198,7 +198,7 @@ python -m unittest discover -s tests -v
 python evals/build_cases.py --output ./temporary-review-cases
 ```
 
-Use a **new** output directory for evaluation fixtures; the builder refuses to overwrite an existing path. Follow [the evaluation guide](evals/README.md) to run fresh agent sessions and record results. Tests verify the deterministic tooling; they cannot prove the quality of an agent's reasoning. Contributions that improve a real missed finding or false positive are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md).
+Use a **new** output directory for evaluation fixtures; the builder refuses to overwrite an existing path. Follow [the evaluation guide](evals/README.md) and [blind evaluation protocol](evals/PROTOCOL.md) to run fresh agent sessions, keep judge keys separate, and compare scorecards. Tests verify the deterministic tooling; they cannot prove the quality of an agent's reasoning. Contributions that improve a real missed finding or false positive are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Limitations
 
